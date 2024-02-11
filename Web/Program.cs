@@ -1,7 +1,17 @@
+using Web.Services;
+using Web.Services.Contracts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<IAccountService, AccountService>("BlogAPI",c => 
+{
+    c.BaseAddress = new Uri(builder.Configuration["ServiceUri:Blog"]); 
+});
+
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
