@@ -1,0 +1,41 @@
+@model UserViewModel
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container d-flex flex-row">
+    <div class="bg-primary">
+        
+    </div>
+    <div>
+        <form asp-action="Login" method="post">  
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 10px">
+                <label asp-for="Password" class="control-label"></label>
+                <div class="col-md-10">
+                    <input type="password" class="form-control">
+                </div>
+            </div>
+        
+            <div class="form-group d-flex">
+                <div class="">
+                    <button type="submit" class="btn btn-outline-dark">
+                        Login
+                    </button>
+                </div>
+
+                <div class="ms-2">
+                    <a asp-action="CreateAccount" class="btn btn-outline-dark">Create account</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
