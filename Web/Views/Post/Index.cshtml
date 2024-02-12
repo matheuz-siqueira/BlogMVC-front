@@ -1,0 +1,60 @@
+@model IEnumerable<GetPostsViewModel>
+
+@{
+    ViewData["Title"] = "Feed"; 
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Subtitle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdateAt)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var post in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => post.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => post.Subtitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => post.UpdateAt)
+                        </td>
+                        <td>
+                            <button class="btn">
+                                <img src="~/images/like-icon.png" />
+                            </button>
+                            <button class="btn">
+                                <img src="~/images/comment-icon.png" /> 
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="position-fixed">
+        <div class="bottom-0 end-0">
+            <a asp-controller="Post" asp-action="CreatePost" class="btn">
+                <img src="~/images/write-icon.png">
+            </a>
+        </div>
+    </div>
+</div>

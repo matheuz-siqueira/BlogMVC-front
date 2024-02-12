@@ -19,8 +19,15 @@ builder.Services.AddHttpClient<IAuthenticateService, AuthenticateService>("BlogA
     c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
+builder.Services.AddHttpClient<IPostService, PostService>("BlogAPI", c => 
+{
+    c.BaseAddress = new Uri(builder.Configuration["ServiceUri:Blog"]);
+});
+
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
+builder.Services.AddScoped<IPostService, PostService>();
+
 
 var app = builder.Build();
 
