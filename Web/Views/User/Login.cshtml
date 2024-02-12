@@ -1,26 +1,23 @@
-@model UserViewModel
+@model Web.Models.User.UserViewModel
 
-<h2>@ViewData["Title"]</h2>
+<h2>Login</h2>
 
 <div class="container d-flex flex-row">
-    <div class="bg-primary">
-        
-    </div>
     <div>
-        <form asp-action="Login" method="post">  
+        <form asp-controller="User" asp-action="Login" method="post">  
             <div asp-validation-summary="All" class="text-danger"></div>
 
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <div class="col-md-10">
-                    <input type="text" class="form-control">
+                    <input asp-for="Email" type="email" class="form-control">
                 </div>
             </div>
 
             <div class="form-group" style="margin-bottom: 10px">
                 <label asp-for="Password" class="control-label"></label>
                 <div class="col-md-10">
-                    <input type="password" class="form-control">
+                    <input asp-for="Password" type="password" class="form-control">
                 </div>
             </div>
         

@@ -11,7 +11,13 @@ builder.Services.AddHttpClient<IAccountService, AccountService>("BlogAPI",c =>
     c.BaseAddress = new Uri(builder.Configuration["ServiceUri:Blog"]); 
 });
 
+builder.Services.AddHttpClient<IAuthenticateService, AuthenticateService>("BlogAPI", c => 
+{
+    c.BaseAddress = new Uri(builder.Configuration["ServiceUri:Blog"]); 
+});
+
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 
 var app = builder.Build();
 
