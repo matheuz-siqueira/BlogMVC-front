@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using Web.Services;
 using Web.Services.Contracts;
 
@@ -14,6 +15,8 @@ builder.Services.AddHttpClient<IAccountService, AccountService>("BlogAPI",c =>
 builder.Services.AddHttpClient<IAuthenticateService, AuthenticateService>("BlogAPI", c => 
 {
     c.BaseAddress = new Uri(builder.Configuration["ServiceUri:Blog"]); 
+    c.DefaultRequestHeaders.Accept.Clear(); 
+    c.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 builder.Services.AddScoped<IAccountService, AccountService>();
