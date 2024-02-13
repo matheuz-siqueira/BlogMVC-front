@@ -1,14 +1,10 @@
-@model IEnumerable<GetPostsViewModel>
+@model IEnumerable<GetPostsViewModel> 
 
 @{
-    ViewData["Title"] = "Feed"; 
+    ViewData["Title"] = "My Posts"; 
 }
 
 <h2>@ViewData["Title"]</h2>
-
-<div class="d-flex">
-   <a asp-action="MyPosts" class="btn btn-outline-dark">My Posts</a>
-</div>
 
 <div class="container">
     <div class="panel panel-default">

@@ -6,4 +6,5 @@ public interface IPostService
 {
     Task<IEnumerable<GetPostsViewModel>> GetAll(); 
     Task<GetPostViewModel> CreateAsync(CreatePostViewModel model, string token);
+    Task<IEnumerable<GetPostsViewModel>> GetAllUser(string token);
 }
