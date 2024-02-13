@@ -1,4 +1,6 @@
 using System.Net;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using Web.Models.Post;
 using Web.Services.Contracts;
@@ -10,7 +12,8 @@ public class PostService : IPostService
     private readonly IHttpClientFactory _httpClientFactory;
     const string endpoint = "/api/post/";
     private readonly JsonSerializerOptions _options; 
-    private  IEnumerable<GetPostsViewModel> posts; 
+    private IEnumerable<GetPostsViewModel> posts;
+    private GetPostViewModel post; 
     public PostService(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory; 
@@ -33,4 +36,32 @@ public class PostService : IPostService
         }
         return posts; 
     }
+
+    public async Task<GetPostViewModel> CreateAsync(CreatePostViewModel model, string token)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI"); 
+        PutTokenInHeaderAuthorization(token, client); 
+        var postModel = JsonSerializer.Serialize(model); 
+        StringContent content = new StringContent(postModel, Encoding.UTF8, "application/json"); 
+        using var response = await client.PostAsync(endpoint, content); 
+        if(response.IsSuccessStatusCode)
+        {
+            var apiResponse = await response.Content.ReadAsStreamAsync(); 
+            post = await JsonSerializer
+                .DeserializeAsync<GetPostViewModel>
+                    (apiResponse, _options);
+        }
+        else 
+        {
+            return null; 
+        }
+        return post; 
+    }
+
+    private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
+    {
+        client.DefaultRequestHeaders.Authorization = 
+            new AuthenticationHeaderValue("Bearer", token);
+    }
+    
 }
