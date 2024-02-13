@@ -46,6 +46,17 @@ public class PostController : Controller
         return RedirectToAction(nameof(Index)); 
     }
 
+    [HttpGet]
+    public async Task<ActionResult<GetPostsViewModel>> MyPosts()
+    {
+        var response = await _postService.GetAllUser(GetToken()); 
+        if(response is null)
+        {
+            return View("Error"); 
+        }
+        return View(response); 
+    }
+
     private string GetToken()
     {
         if(HttpContext.Request.Cookies.ContainsKey("access-token"))

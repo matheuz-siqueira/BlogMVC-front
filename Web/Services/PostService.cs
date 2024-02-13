@@ -58,10 +58,28 @@ public class PostService : IPostService
         return post; 
     }
 
+    public async Task<IEnumerable<GetPostsViewModel>> GetAllUser(string token)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI"); 
+        PutTokenInHeaderAuthorization(token, client); 
+        using var response = await client.GetAsync(endpoint + "all-user/"); 
+        if(response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NoContent)
+        {
+            var apiResponse = await response.Content.ReadAsStreamAsync(); 
+            posts = await JsonSerializer
+                    .DeserializeAsync<IEnumerable<GetPostsViewModel>>
+                        (apiResponse, _options);
+        }
+        else
+        {
+            return null; 
+        }
+        return posts; 
+    }
+
     private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
     {
         client.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue("Bearer", token);
     }
-    
 }
