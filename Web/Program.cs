@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using Web.Services;
 using Web.Services.Contracts;
+using Web.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,9 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 builder.Services.AddScoped<IPostService, PostService>();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CookieHandler>();
+
 
 var app = builder.Build();
 
@@ -40,7 +44,9 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+app.UseAuthentication();
 
 app.UseRouting();
 

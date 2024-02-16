@@ -1,0 +1,24 @@
+@using Web.Utils
+@inject CookieHandler Cookie  
+
+@{
+    var auth = Cookie.CookieInResponse();
+}
+
+<ul class="navbar-nav">
+    @if(auth) 
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="#">Olá</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Logout" asp-controller="User">Logout</a>
+        </li>
+    }
+    else 
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-action="Login" asp-controller="User">Login</a>
+        </li>
+    }
+</ul>
