@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models.User;
 using Web.Services.Contracts;
@@ -8,6 +9,7 @@ public class UserController : Controller
 {
     private readonly IAccountService _accountService;
     private readonly IAuthenticateService _authenticateService;
+    private string token = string.Empty; 
     public UserController(IAccountService accountService, 
         IAuthenticateService authenticateService)
     {
@@ -65,6 +67,17 @@ public class UserController : Controller
 
     }
 
+    [HttpGet] 
+    public async Task<ActionResult> GetProfile()
+    {
+        var response = await _accountService.GetProfileAsync(GetToken());
+        if(response is null)
+        {
+            return View("Error"); 
+        }
+        return View(response); 
+    }
+
     [HttpGet]
     public IActionResult Logout()
     {
@@ -73,4 +86,11 @@ public class UserController : Controller
 
     }
    
+    private string GetToken()
+    {
+        if(HttpContext.Request.Cookies.ContainsKey("access-token"))
+            token = HttpContext.Request.Cookies["access-token"].ToString(); 
+        return token; 
+    }
+
 }
