@@ -8,17 +8,33 @@
 <ul class="navbar-nav">
     @if(auth) 
     {
-        <li class="nav-item">
-            <a class="nav-link" href="#">Olá</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-action="Logout" asp-controller="User">Logout</a>
-        </li>
+        <div class="dropstart">
+            <button class="btn border border-0 text-white dropdown-toggle" data-bs-toggle="dropdown">
+                <span class="text-white">Olá</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li class="dropdown-item">
+                    <a class="nav-link" asp-controller="Post" asp-action="NewPost">To Write</a>
+                </li>
+                <li class="dropdown-item">
+                    <a class="nav-link" asp-controller="User" asp-action="GetProfile">Your Profile</a>
+                </li>
+                <li class="dropdown-item">
+                    <a class="nav-link" asp-controller="User" asp-action="UpdatePassword">Update Password</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li class="dropdown-item">
+                    <a class="nav-link" asp-controller="User" asp-action="Logout">Logout</a>
+                </li>
+            </ul>
+        </div>
     }
     else 
     {
         <li class="nav-item">
-            <a class="nav-link" asp-action="Login" asp-controller="User">Login</a>
+            <a class="nav-link text-white" asp-action="Login" asp-controller="User">Login</a>
         </li>
     }
 </ul>
