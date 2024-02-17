@@ -59,4 +59,22 @@ public class AccountService : IAccountService
         }
         return userVM;
     }
+
+    public async Task<bool> UpdatePasswordAsync(string token, UpdatePasswordViewModel model)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI"); 
+        _headerAuth.PutTokenInHeaderAuthorization(token, client); 
+        // string password = JsonSerializer.Serialize(model); 
+        // StringContent content = new(password, Encoding.UTF8, "application/json"); 
+        using var response = await client.PutAsJsonAsync(endpoint + "update-password/", model);  
+        if(response.IsSuccessStatusCode)
+        {
+            return true; 
+        }
+        else 
+        {
+            return false; 
+        }
+
+    }
 }
