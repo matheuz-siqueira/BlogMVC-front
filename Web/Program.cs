@@ -31,6 +31,7 @@ builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CookieHandler>();
+builder.Services.AddScoped<HeaderAuthorization>();
 
 
 var app = builder.Build();

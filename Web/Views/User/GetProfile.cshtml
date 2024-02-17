@@ -1,0 +1,15 @@
+@model UserViewModel 
+
+@{
+    ViewData["Title"] = "Your Profile"; 
+    string name = $"{Model.Name} {Model.Surname}"; 
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h3>Welcome again @name !</h3>
+        <h4>Your email: @Model.Email</h4>
+    </div>
+</div>
