@@ -65,5 +65,12 @@ public class UserController : Controller
 
     }
 
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("access-token"); 
+        return Redirect("/"); 
+
+    }
    
 }
