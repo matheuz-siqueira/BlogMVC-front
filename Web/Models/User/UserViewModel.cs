@@ -14,6 +14,5 @@ public class UserViewModel
     [StringLength(250)]
     public string Email { get; set; }
     [Required(ErrorMessage = "{0} is required")]
-    [StringLength(8)]
     public string Password { get; set; }
 }

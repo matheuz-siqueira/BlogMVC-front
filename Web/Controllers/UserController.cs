@@ -79,10 +79,32 @@ public class UserController : Controller
     }
 
     [HttpGet]
+    public IActionResult UpdatePassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> UpdatePassword(UpdatePasswordViewModel model)
+    {
+        if(!ModelState.IsValid)
+        { 
+            return View();
+        }
+        var response = await _accountService.UpdatePasswordAsync(GetToken(), model);
+        if(!response)
+        {
+            return View("Error"); 
+        } 
+        return Redirect("/");
+    }    
+
+    [HttpGet]
     public IActionResult Logout()
     {
         Response.Cookies.Delete("access-token"); 
-        return Redirect("/"); 
+        return RedirectToAction(nameof(Login)); 
 
     }
    
