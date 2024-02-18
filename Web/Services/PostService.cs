@@ -77,6 +77,54 @@ public class PostService : IPostService
         return posts; 
     }
 
+    public async Task<GetPostViewModel> DetailsAsynct(string token, int id)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI");
+        PutTokenInHeaderAuthorization(token, client); 
+        using var response = await client.GetAsync(endpoint + id); 
+        if(response.IsSuccessStatusCode)
+        {
+            var apiResponse = await response.Content.ReadAsStreamAsync(); 
+            post = await JsonSerializer
+                .DeserializeAsync<GetPostViewModel>
+                    (apiResponse, _options);
+        }   
+        else 
+        {
+            return null; 
+        } 
+        return post; 
+    }
+    public async Task<GetPostViewModel> GetByIdAsync(int id, string token)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI"); 
+        PutTokenInHeaderAuthorization(token, client); 
+        using var response = await client.GetAsync(endpoint + id); 
+        if(response.IsSuccessStatusCode)
+        {
+            var apiResponse = await response.Content.ReadAsStreamAsync(); 
+            post = await JsonSerializer
+                .DeserializeAsync<GetPostViewModel>
+                    (apiResponse, _options); 
+        }
+        else 
+        {
+            return null; 
+        }
+        return post; 
+    }
+
+    public async Task<bool> UpdateAsync(int id, CreatePostViewModel model, string token)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI"); 
+        PutTokenInHeaderAuthorization(token, client); 
+        using var response = await client.PutAsJsonAsync(endpoint + id, model); 
+        if(response.IsSuccessStatusCode)
+            return true; 
+        else 
+            return false; 
+    }
+
     private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
     {
         client.DefaultRequestHeaders.Authorization = 

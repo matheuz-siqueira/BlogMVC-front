@@ -9,25 +9,27 @@
 <div class="container">
     @foreach(var post in Model)
     {
-        <div class="card mb-2 border border-0">
-            <div class="card-body">
-                <h2 class="card-title">@Html.DisplayFor(modelItem => post.Title)</h2>
-                <h6 class="card-subtitle">@Html.DisplayFor(modelItem => post.Subtitle)</h6>
-                <div class="d-flex justify-content-between">
-                    <div class="mt-3">
-                        <span>@Html.DisplayFor(modelItem => post.UpdateAt)</span>
-                    </div>
-                    <div class="">
-                        <a asp-action="" class="btn">
-                            <img src="~/images/like-icon.png" style="width:30px"> 
-                        </a>
-                         <a asp-action="" class="btn">
-                            <img src="~/images/comment-icon.png" style="width:30px"> 
-                        </a>
+        <a asp-action="Details" asp-route-id="@post.Id" class="nav-link">
+            <div class="card mb-2 border border-0">
+                <div class="card-body">
+                    <h2 class="card-title">@Html.DisplayFor(modelItem => post.Title)</h2>
+                    <h6 class="card-subtitle">@Html.DisplayFor(modelItem => post.Subtitle)</h6>
+                    <div class="d-flex justify-content-between">
+                        <div class="mt-3">
+                            <span>@Html.DisplayFor(modelItem => post.UpdateAt)</span>
+                        </div>
+                        <div class="">
+                            <a asp-action="" class="btn">
+                                <img src="~/images/like-icon.png" style="width:30px"> 
+                            </a>
+                            <a asp-action="" class="btn">
+                                <img src="~/images/comment-icon.png" style="width:30px"> 
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     }
 
     <div>

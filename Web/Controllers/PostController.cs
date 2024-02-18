@@ -57,6 +57,42 @@ public class PostController : Controller
         return View(response); 
     }
 
+    [HttpGet]
+    public async Task<ActionResult> Details(int id) 
+    {
+        var response = await _postService.DetailsAsynct(GetToken(), id); 
+        if(response is null)
+        {
+            return View("Error"); 
+        }
+        return View(response); 
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Edit(int id)
+    {
+        var response = await _postService.GetByIdAsync(id, GetToken()); 
+        if(response is null)
+        {
+            return View("Error"); 
+        }
+        return View(response);      
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> Edit(int id, CreatePostViewModel model)
+    {
+        if(!ModelState.IsValid)
+        {
+            return View();
+        }
+        var response = await _postService.UpdateAsync(id, model, GetToken()); 
+        if(!response)
+            return View("Error"); 
+        return RedirectToAction(nameof(MyPosts)); 
+    }
+
     private string GetToken()
     {
         if(HttpContext.Request.Cookies.ContainsKey("access-token"))

@@ -1,0 +1,28 @@
+@model GetPostViewModel
+
+<div class="card">
+    <div class="card-body">
+        <h3>@Html.DisplayFor(model => model.Title)</h3>
+        <h4>@Html.DisplayFor(model => model.Subtitle)</h4>
+        <div class="card-content">
+            <p>@Html.DisplayFor(model => model.Content)</p>
+        </div>
+    </div>
+    <div class="card-footer d-flex flex-column">
+        <p>
+            Atualidao em: @Html.DisplayFor(model => model.UpdateAt)
+        </p>
+        <div class="justify-content-end">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-warning">
+                Edit
+            </a>            
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                Delete
+            </a>
+            <a asp-action="MyPosts" class="btn btn-outline-info">
+                Back
+            </a>
+        </div>
+    </div>
+</div>
+
