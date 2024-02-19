@@ -18,9 +18,10 @@ public class PostController : Controller
     {
         var response = await _postService.GetAll(); 
         if(response is null)
-        {
             return View("Error"); 
-        }
+
+        if(!response.Any())
+            return Redirect("/"); 
         return View(response); 
     }
 
@@ -49,11 +50,13 @@ public class PostController : Controller
     [HttpGet]
     public async Task<ActionResult<GetPostsViewModel>> MyPosts()
     {
-        var response = await _postService.GetAllUser(GetToken()); 
+        var response = await _postService.GetAllUser(GetToken());
         if(response is null)
         {
             return View("Error"); 
         }
+        if(!response.Any())
+            return RedirectToAction(nameof(NewPost));
         return View(response); 
     }
 
@@ -91,6 +94,25 @@ public class PostController : Controller
         if(!response)
             return View("Error"); 
         return RedirectToAction(nameof(MyPosts)); 
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var response = await _postService.GetByIdAsync(id, GetToken());
+        if(response is null)
+            return View("Error"); 
+        return View(response); 
+    }
+
+    [HttpPost(), ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> DeleteConfirmed(int id)
+    {
+        var response = await _postService.RemoveAsync(id, GetToken()); 
+        if(!response)
+            return View("Error"); 
+        return RedirectToAction(nameof(MyPosts));
     }
 
     private string GetToken()
