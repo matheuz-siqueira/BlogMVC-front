@@ -29,11 +29,12 @@ public class PostService : IPostService
             posts = await JsonSerializer
                     .DeserializeAsync<IEnumerable<GetPostsViewModel>>
                         (apiResponse, _options);
-        } 
-        else 
-        {
-            return null; 
         }
+        else if(response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
+            posts = new List<GetPostsViewModel>();
+        else 
+            return null; 
+
         return posts; 
     }
 
@@ -62,7 +63,7 @@ public class PostService : IPostService
     {
         var client = _httpClientFactory.CreateClient("BlogAPI"); 
         PutTokenInHeaderAuthorization(token, client); 
-        using var response = await client.GetAsync(endpoint + "all-user/"); 
+        using var response =  await client.GetAsync(endpoint + "all-user/"); 
         if(response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NoContent)
         {
             var apiResponse = await response.Content.ReadAsStreamAsync(); 
@@ -70,10 +71,12 @@ public class PostService : IPostService
                     .DeserializeAsync<IEnumerable<GetPostsViewModel>>
                         (apiResponse, _options);
         }
-        else
+        else if(response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
         {
-            return null; 
+            posts = new List<GetPostsViewModel>();
         }
+        else
+            return null;
         return posts; 
     }
 
@@ -124,8 +127,18 @@ public class PostService : IPostService
         else 
             return false; 
     }
+    public async Task<bool> RemoveAsync(int id, string token)
+    {
+        var client = _httpClientFactory.CreateClient("BlogAPI"); 
+        PutTokenInHeaderAuthorization(token, client); 
+        using var response = await client.DeleteAsync(endpoint + id); 
+        if(response.IsSuccessStatusCode)
+            return true; 
+        else 
+            return false; 
+    }
 
-    private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
+     private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
     {
         client.DefaultRequestHeaders.Authorization = 
             new AuthenticationHeaderValue("Bearer", token);

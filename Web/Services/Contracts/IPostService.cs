@@ -10,4 +10,5 @@ public interface IPostService
     Task<GetPostViewModel> DetailsAsynct(string token, int id);
     Task<GetPostViewModel> GetByIdAsync(int id, string token); 
     Task<bool> UpdateAsync(int id, CreatePostViewModel model, string token); 
+    Task<bool> RemoveAsync(int id, string token);
 }

@@ -1,0 +1,37 @@
+@model GetPostViewModel
+
+@{
+    ViewData["Title"] = "Remove Post"; 
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div>
+    <hr>
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Title)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Title)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Subtitle)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Subtitle)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Content)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Content)</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.UpdateAt)</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.UpdateAt)</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post" class="form-horizontal">
+        <input type="hidden" asp-for="Id">
+        <div class="d-flex justify-content-end">
+            <div>
+                <button type="submit" class="btn btn-outline-danger">Confirm</button>
+            </div>
+            <div>
+                <a asp-action="MyPosts" class="btn btn-outline-info">Back</a>
+            </div>
+        </div>
+    </form>
+
+</div>
